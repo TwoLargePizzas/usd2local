@@ -9,7 +9,7 @@ module.exports = {
   },
 
   // where to output built files
-  outputDir: `../BackEnd/wwwroot`,
+  outputDir: `./docs`,
 
   // configure webpack-dev-server behavior
   devServer: {
