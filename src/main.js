@@ -3,9 +3,13 @@ import App from "./App.vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
 import VueCookies from "vue-cookies";
+import axios from "axios";
+
+if (process.env.NODE_ENV === "production") {
+  axios.defaults.baseURL = "https://api.twolargepizzas.com";
+}
 
 Vue.config.productionTip = false;
-
 Vue.use(VueCookies);
 
 new Vue({
