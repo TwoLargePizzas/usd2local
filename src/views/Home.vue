@@ -99,9 +99,16 @@ export default {
   },
   methods: {
     async connect() {
-      this.$cookies.set("3commasKey", this.$route.query.api_key);
-      this.$cookies.set("3commasSecret", this.$route.query.secret);
-      this.$cookies.set("3commasUserId", this.$route.query.user_id);
+      const response = await axios.post("/api/3commas", {
+        apiKey: this.$route.query.api_key,
+        secret: this.$route.query.secret,
+        userId: this.$route.query.user_id,
+      });
+
+      window.console.log(response);
+      if (response.data) {
+        this.$cookies.set("3commas", response.data);
+      }
     },
     async load() {
       const response = await axios.get("/api/fiat");
