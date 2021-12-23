@@ -99,6 +99,7 @@ export default {
   },
   methods: {
     async connect() {
+      window.console.log(this.$route);
       const response = await axios.post("/api/3commas", {
         apiKey: this.$route.query.api_key,
         secret: this.$route.query.secret,
