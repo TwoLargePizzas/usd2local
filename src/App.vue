@@ -26,7 +26,9 @@ export default {
   },
 
   async created() {
-    const response = await axios.get("https://localhost:5001/api/blockchains");
+    const response = await axios.get(
+      "https://twolargepizzas.com/api/blockchains"
+    );
     console.info(response);
   },
 };
