@@ -98,25 +98,20 @@ export default {
     };
   },
   methods: {
-    async connect() {
-      window.console.log(this.$route);
-      const response = await axios.post("/api/3commas", {
-        apiKey: this.$route.query.api_key,
-        secret: this.$route.query.secret,
-        userId: this.$route.query.user_id,
-      });
-
-      window.console.log(response);
-      if (response.data) {
-        this.$cookies.set("3commas", response.data);
-      }
-    },
     async load() {
       const response = await axios.get("/api/fiat");
       this.currencies = response.data;
     },
     async loadBalances(code) {
-      const response = await axios.get(`/api/fiat/${code}`);
+      const key = this.$route.query.api_key;
+      const secret = this.$route.query.secret;
+      const userId = this.$route.query.user_id;
+      const response = await axios.get(`/api/3commas/${key}?local=${code}`, {
+        headers: {
+          "3commasSecret": secret,
+          "3commasUserId": userId,
+        },
+      });
       this.balances = response.data;
     },
     async close() {
@@ -128,7 +123,6 @@ export default {
     },
   },
   async created() {
-    await this.connect();
     await this.load();
     await this.loadBalances(this.selected);
   },

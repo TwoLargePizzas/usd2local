@@ -1,35 +1,18 @@
 <template>
   <v-app>
     <v-main>
-      <!-- <app-layout>
+      <app-layout>
         <router-view></router-view>
-      </app-layout> -->
-      <pre>
-        {{ hello }}
-      </pre>
+      </app-layout>
     </v-main>
   </v-app>
 </template>
 
 <script>
-// import AppLayout from "@/layouts/AppLayout.vue";
-import axios from "axios";
+import AppLayout from "@/layouts/AppLayout.vue";
 
 export default {
-  // components: { AppLayout },
+  components: { AppLayout },
   name: "App",
-
-  data() {
-    return {
-      hello: "world",
-    };
-  },
-
-  async created() {
-    const response = await axios.get(
-      "https://twolargepizzas.com/api/blockchains"
-    );
-    console.info(response);
-  },
 };
 </script>

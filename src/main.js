@@ -6,7 +6,7 @@ import VueCookies from "vue-cookies";
 import axios from "axios";
 
 if (process.env.NODE_ENV === "production") {
-  axios.defaults.baseURL = "https://api.twolargepizzas.com";
+  axios.defaults.baseURL = "https://twolargepizzas.com";
 }
 
 Vue.config.productionTip = false;
