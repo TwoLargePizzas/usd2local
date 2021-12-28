@@ -40,8 +40,8 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer />
-              <v-btn text @click="close">
-                Close
+              <v-btn text @click="close" class="primary--text">
+                Apply
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -125,6 +125,16 @@ export default {
   async created() {
     await this.load();
     await this.loadBalances(this.selected);
+  },
+  watch: {
+    selected(newSelected) {
+      localStorage.currencyCode = newSelected;
+    },
+  },
+  mounted() {
+    if (localStorage.currencyCode) {
+      this.selected = localStorage.currencyCode;
+    }
   },
 };
 </script>
