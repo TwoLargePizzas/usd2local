@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card v-if="balances">
+    <v-card v-if="balances" :loading="loading">
       <v-toolbar flat>
         <v-toolbar-title>
           <v-list-item two-line>
@@ -18,34 +18,10 @@
           {{ formatDollars(balances.total.local) }} {{ selected }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" scrollable max-width="300px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" icon>
-              <v-icon>mdi-cog</v-icon>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>Select Currency</v-card-title>
-            <v-divider></v-divider>
-            <v-card-text style="height: 300px;">
-              <v-radio-group v-model="selected" column>
-                <v-radio
-                  v-for="currency in currencies"
-                  :key="currency"
-                  :label="currency"
-                  :value="currency"
-                />
-              </v-radio-group>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn text @click="close" class="primary--text">
-                Apply
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <v-btn @click="showOptions" icon>
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+        <options-dialog ref="options" />
       </v-toolbar>
       <v-card-text>
         <v-row>
@@ -86,23 +62,32 @@
 <script>
 import axios from "axios";
 import numeral from "numeral";
+import OptionsDialog from "@/components/OptionsDialog.vue";
 
 export default {
   name: "Home",
+  components: {
+    OptionsDialog,
+  },
   data() {
     return {
       dialog: false,
       currencies: [],
       balances: null,
       selected: "AUD",
+      loading: true,
     };
   },
   methods: {
-    async load() {
-      const response = await axios.get("/api/fiat");
-      this.currencies = response.data;
+    async showOptions() {
+      const options = this.$refs.options;
+      if (await options.open(this.selected)) {
+        this.selected = options.selected;
+        await this.loadBalances(this.selected);
+      }
     },
     async loadBalances(code) {
+      this.loading = true;
       const key = this.$route.query.api_key;
       const secret = this.$route.query.secret;
       const userId = this.$route.query.user_id;
@@ -113,6 +98,7 @@ export default {
         },
       });
       this.balances = response.data;
+      this.loading = false;
     },
     async close() {
       await this.loadBalances(this.selected);
@@ -123,7 +109,6 @@ export default {
     },
   },
   async created() {
-    await this.load();
     await this.loadBalances(this.selected);
   },
   watch: {
