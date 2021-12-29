@@ -32,9 +32,9 @@
         <v-radio-group v-model="selected" column>
           <v-radio
             v-for="currency in currencies"
-            :key="currency"
-            :label="currency"
-            :value="currency"
+            :key="currency.code"
+            :label="`${currency.code} - ${currency.name}`"
+            :value="currency.code"
           />
         </v-radio-group>
       </v-card-text>
