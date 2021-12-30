@@ -26,8 +26,8 @@
       <v-card-text>
         <v-row>
           <v-col
-            v-for="key in Object.keys(balances.accounts)"
-            :key="key"
+            v-for="account in balances.accounts"
+            :key="account.id"
             lg="3"
             md="6"
             sm="12"
@@ -36,17 +36,17 @@
               <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ key }}
+                    {{ account.name }}
                   </v-list-item-title>
                   <v-list-item-subtitle class="caption">
-                    {{ formatDollars(balances.accounts[key].usd) }} USD
+                    {{ formatDollars(account.usd) }} USD
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-card-text>
                 <v-row align="center">
                   <v-col class="text-h5 ma-0 pa-0 text-center primary--text">
-                    {{ formatDollars(balances.accounts[key].local) }}
+                    {{ formatDollars(account.local) }}
                     {{ selected }}
                   </v-col>
                 </v-row>
@@ -56,6 +56,20 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <p class="text-center caption ma-0 grey--text">
+      This 3Commas app was created by TwoLargePizzas.
+    </p>
+    <p class="text-center caption ma-0 grey--text">
+      Come and join our crypto trading
+      <a
+        target="_blank"
+        href="https://join.slack.com/t/twolargepizzas/shared_invite/zt-10vua1weq-SGGBJdEdhXJoVO2kb5fwsA"
+        class="text-decoration-none"
+      >
+        Slack community
+      </a>
+      to discuss ideas and share thoughts.
+    </p>
   </v-container>
 </template>
 
@@ -106,6 +120,9 @@ export default {
     },
     formatDollars(value) {
       return `${numeral(value).format("0,0")}`;
+    },
+    formatBtc(value) {
+      return `${numeral(value).format("0.00000")}`;
     },
   },
   async created() {
