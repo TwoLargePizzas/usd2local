@@ -15,9 +15,12 @@
           </v-list-item>
         </v-toolbar-title>
         <v-toolbar-title class="ma-2 primary--text text-h4">
-          {{ formatDollars(balances.total.local) }} {{ selected }}
+          {{ balances.totalFormatted }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-toolbar-title class="primary--text">
+          {{ selected }}
+        </v-toolbar-title>
         <v-btn @click="showOptions" icon>
           <v-icon>mdi-cog</v-icon>
         </v-btn>
@@ -46,8 +49,7 @@
               <v-card-text>
                 <v-row align="center">
                   <v-col class="text-h5 ma-0 pa-0 text-center primary--text">
-                    {{ formatDollars(account.local) }}
-                    {{ selected }}
+                    {{ account.localFormatted }}
                   </v-col>
                 </v-row>
               </v-card-text>
