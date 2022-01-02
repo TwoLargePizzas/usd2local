@@ -58,6 +58,7 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <v-skeleton-loader v-else class="mx-auto" type="card-heading, card" />
     <p class="text-center caption ma-0 grey--text">
       This 3Commas app was created by TwoLargePizzas.
     </p>
